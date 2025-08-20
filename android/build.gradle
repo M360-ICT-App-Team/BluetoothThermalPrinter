@@ -30,14 +30,35 @@ kotlin {
     }
 }
 
-android {
-    namespace 'com.peoplewareinnovations.bluetooth_thermal_printer'
-    compileSdkVersion 34
+// android {
+//     namespace 'com.peoplewareinnovations.bluetooth_thermal_printer'
+//     compileSdkVersion 34
 
-    defaultConfig {
-        minSdkVersion 21
-        targetSdk 34
-    }
+//     defaultConfig {
+//         minSdkVersion 21
+//         targetSdk 34
+//     }
+
+//     compileOptions {
+//         sourceCompatibility JavaVersion.VERSION_17
+//         targetCompatibility JavaVersion.VERSION_17
+//     }
+
+//     kotlinOptions {
+//         jvmTarget = "17"
+//     }
+
+//     sourceSets {
+//         main.java.srcDirs += 'src/main/kotlin'
+//     }
+
+//     lint {
+//         disable 'InvalidPackage'
+//     }
+// }
+
+android {
+    compileSdkVersion 34
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -47,15 +68,8 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-
-    sourceSets {
-        main.java.srcDirs += 'src/main/kotlin'
-    }
-
-    lint {
-        disable 'InvalidPackage'
-    }
 }
+
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"

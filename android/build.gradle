@@ -2,7 +2,7 @@ group 'com.peoplewareinnovations.bluetooth_thermal_printer'
 version '1.0-SNAPSHOT'
 
 buildscript {
-    ext.kotlin_version = '1.9.10'
+    ext.kotlin_version = '1.9.22' // Updated Kotlin version
     repositories {
         google()
         mavenCentral()
@@ -23,42 +23,14 @@ allprojects {
 apply plugin: 'com.android.library'
 apply plugin: 'kotlin-android'
 
-// ===== Force Kotlin JVM Toolchain =====
-kotlin {
-    jvmToolchain {
-        languageVersion.set(JavaLanguageVersion.of(17))
-    }
-}
-
-// android {
-//     namespace 'com.peoplewareinnovations.bluetooth_thermal_printer'
-//     compileSdkVersion 34
-
-//     defaultConfig {
-//         minSdkVersion 21
-//         targetSdk 34
-//     }
-
-//     compileOptions {
-//         sourceCompatibility JavaVersion.VERSION_17
-//         targetCompatibility JavaVersion.VERSION_17
-//     }
-
-//     kotlinOptions {
-//         jvmTarget = "17"
-//     }
-
-//     sourceSets {
-//         main.java.srcDirs += 'src/main/kotlin'
-//     }
-
-//     lint {
-//         disable 'InvalidPackage'
-//     }
-// }
-
 android {
+    namespace 'com.peoplewareinnovations.bluetooth_thermal_printer'
     compileSdkVersion 34
+
+    defaultConfig {
+        minSdkVersion 21
+        targetSdk 34
+    }
 
     compileOptions {
         sourceCompatibility JavaVersion.VERSION_17
@@ -68,11 +40,18 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
-}
 
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    lint {
+        disable 'InvalidPackage'
+    }
+}
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk8:$kotlin_version"
-    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.4.0'
-    implementation "androidx.annotation:annotation:1.1.0"
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-android:1.7.3' // Updated coroutines
+    implementation "androidx.annotation:annotation:1.7.1" // Updated annotation
 }

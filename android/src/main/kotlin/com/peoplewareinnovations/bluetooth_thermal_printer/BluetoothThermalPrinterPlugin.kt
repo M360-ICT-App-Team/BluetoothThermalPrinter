@@ -10,6 +10,9 @@ import android.widget.Toast
 import io.flutter.embedding.engine.plugins.FlutterPlugin
 import io.flutter.plugin.common.MethodCall
 import io.flutter.plugin.common.MethodChannel
+import io.flutter.plugin.common.MethodChannel.MethodCallHandler
+import io.flutter.plugin.common.MethodChannel.Result
+import io.flutter.plugin.common.PluginRegistry.Registrar
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.GlobalScope
 import kotlinx.coroutines.launch
@@ -19,13 +22,25 @@ import java.util.*
 
 private const val TAG = "BluetoothThermalPrinter"
 
-class BluetoothThermalPrinterPlugin : FlutterPlugin, MethodChannel.MethodCallHandler {
+class BluetoothThermalPrinterPlugin : FlutterPlugin, MethodCallHandler {
 
     private lateinit var channel: MethodChannel
     private lateinit var context: Context
     private var outputStream: OutputStream? = null
     private var macAddress: String = ""
     private var state: String = "false"
+
+    // This static function is optional and equivalent to onAttachedToEngine.
+    // It supports the old pre-Flutter-1.12 Android projects.
+    companion object {
+        @JvmStatic
+        fun registerWith(registrar: Registrar) {
+            val channel = MethodChannel(registrar.messenger(), "bluetooth_thermal_printer")
+            val plugin = BluetoothThermalPrinterPlugin()
+            plugin.context = registrar.context()
+            channel.setMethodCallHandler(plugin)
+        }
+    }
 
     override fun onAttachedToEngine(binding: FlutterPlugin.FlutterPluginBinding) {
         channel = MethodChannel(binding.binaryMessenger, "bluetooth_thermal_printer")
@@ -37,7 +52,7 @@ class BluetoothThermalPrinterPlugin : FlutterPlugin, MethodChannel.MethodCallHan
         channel.setMethodCallHandler(null)
     }
 
-    override fun onMethodCall(call: MethodCall, result: MethodChannel.Result) {
+    override fun onMethodCall(call: MethodCall, result: Result) {
         when (call.method) {
             "getPlatformVersion" -> result.success("Android ${Build.VERSION.RELEASE}")
 
